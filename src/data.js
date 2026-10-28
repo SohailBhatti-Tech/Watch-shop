@@ -12,6 +12,6 @@
   { id: 11, name: 'Mono Minimal', brand: 'Lumen', category: 'Dress', price: 190, rating: 4.4, dial: '#e8e8e8', strap: '#1f1f1f', metal: '#8d8d8d', desc: 'Clean dial, no date, mesh strap.' },
   { id: 12, name: 'Summit Titanium', brand: 'Aquor', category: 'Sport', price: 990, rating: 4.8, dial: '#3a3f2f', strap: '#4a4f3a', metal: '#b9bcc0', desc: 'Grade-5 titanium case, scratch-proof sapphire crystal.' },
 ]
-export const products = raw.map(p => ({ ...p, img: `${process.env.PUBLIC_URL}/images/watch${p.id}.jpg.jpg` }))
+export const products = raw.map(p => ({ ...p, img: `${process.env.PUBLIC_URL}/Images/watch${p.id}.jpg.jpg` }))
 export const brands = ['All', ...new Set(raw.map(p => p.brand))]
 export const categories = ['All', ...new Set(raw.map(p => p.category))]
