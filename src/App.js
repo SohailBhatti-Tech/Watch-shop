@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
+import Login from './components/Login'
 import { products } from './data'
 import Navbar from './components/Navbar'
 import FilterPanel from './components/FilterPanel'
@@ -11,7 +12,7 @@ import { Announcement, Categories, Features, Testimonials, Newsletter } from './
 
 const defaults = { category: 'All', brand: 'All', maxPrice: 1500, sort: 'default', saved: false }
 
-export default function App() {
+    function Shop({user,onLogout}) {
   const [search, setSearch] = useState('')
   const [f, setF] = useState(defaults)
   const [filterOpen, setFilterOpen] = useState(false)
@@ -84,7 +85,7 @@ export default function App() {
       <Announcement />
       <div className={`top ${hidden && !filterOpen ? 'hide' : ''}`}>
         <Navbar search={search} setSearch={setSearch} filterOpen={filterOpen} setFilterOpen={setFilterOpen}
-          cartCount={count} openCart={() => setCartOpen(true)} />
+          cartCount={count} openCart={() => setCartOpen(true)} user={user} onLogout={onLogout} />
         <FilterPanel open={filterOpen} f={f} setF={setF} reset={() => setF(defaults)} />
       </div>
 
@@ -112,4 +113,38 @@ export default function App() {
         aria-label="Back to top">↑</button>
     </>
   )
+}
+export default function App() {
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('user')) } catch { return null }
+  })
+  const [welcome, setWelcome] = useState(false)
+
+  useEffect(() => {
+    if (!welcome) return
+    const t = setTimeout(() => setWelcome(false), 2500)
+    return () => clearTimeout(t)
+  }, [welcome])
+
+  const login = u => {
+    try { localStorage.setItem('user', JSON.stringify(u)) } catch { /* ignore */ }
+    setUser(u)
+    setWelcome(true)
+  }
+  const logout = () => {
+    try { localStorage.removeItem('user') } catch { /* ignore */ }
+    setUser(null)
+    setWelcome(false)
+  }
+
+  if (!user) return <Login onLogin={login} />
+  if (welcome) {
+    return (
+      <div className="welcome">
+        <h1>Welcome, {user.name}</h1>
+        <p>Taking you to the shop...</p>
+      </div>
+    )
+  }
+  return <Shop user={user} onLogout={logout} />
 }
