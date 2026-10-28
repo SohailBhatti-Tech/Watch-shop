@@ -1,7 +1,7 @@
-export default function Navbar({ search, setSearch, filterOpen, setFilterOpen, cartCount, openCart }) {
+export default function Navbar({ search, setSearch, filterOpen, setFilterOpen, cartCount, openCart, user, onLogout }) {
   return (
     <header className="navbar">
-      <a href="#home" className="logo">MS WATCHES</a>
+      <a href="#home" className="logo">MS Watches</a>
       <nav className="links">
         <a href="#home">Home</a>
         <a href="#shop">Shop</a>
@@ -14,6 +14,8 @@ export default function Navbar({ search, setSearch, filterOpen, setFilterOpen, c
       <button className="btn cart-btn" onClick={openCart}>
         Cart <span key={cartCount} className="badge">{cartCount}</span>
       </button>
+      <span className="hello">Hi, {user.name.split(' ')[0]}</span>
+      <button className="btn ghost" onClick={onLogout}>Logout</button>
     </header>
   )
 }
